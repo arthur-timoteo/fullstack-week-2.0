@@ -40,6 +40,9 @@ export default function CadastrarInvestimento(){
     };
 
     const onFinish = (values) => {
+        values.categoria = {
+            codigo: categoria
+        };
         InvestimentoService.saveInvestimento(values);
         message.success("Investimento salvo com sucesso!");
     }

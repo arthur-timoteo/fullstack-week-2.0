@@ -12,7 +12,7 @@ export default function ListarInvestimento(){
 
     useEffect(() => {
         refreshInvestimentos();
-    },[]);
+    },[investimentos]);
 
     async function refreshInvestimentos(){
         InvestimentoService.retrieveAllInvestimentos()
