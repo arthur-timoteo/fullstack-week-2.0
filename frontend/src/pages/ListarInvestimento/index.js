@@ -1,7 +1,8 @@
 import "antd/dist/antd.css";
 import { Table, Button, message, Layout, Menu } from 'antd';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import InvestimentoService from "../../service/InvestimentoService";
 
 const { Header, Content, Footer } = Layout;
 const {Column} = Table;
@@ -9,7 +10,21 @@ const {Column} = Table;
 export default function ListarInvestimento(){
     const [investimentos,setInvestimentos] = useState([]);
 
+    useEffect(() => {
+        refreshInvestimentos();
+    },[]);
+
+    async function refreshInvestimentos(){
+        InvestimentoService.retrieveAllInvestimentos()
+            .then(
+                response => {
+                    setInvestimentos(response.data)
+                }
+            )
+    }
+
     function remove(record){
+        InvestimentoService.deleteInvestimento(record.codigo);
         message.success('Investimento removido com sucesso!');
     }
 
@@ -36,7 +51,7 @@ export default function ListarInvestimento(){
                         <h2>INVESTIMENTOS</h2>
                         <Table dataSource={investimentos}>
                             <Column title="Código do ativo" dataIndex="codigoAtivo" key="codigoAtivo" />
-                            <Column title="Valor" dataIndex="valor" key="valor" />
+                            <Column title="Valor" dataIndex="valorCota" key="valorCota" />
                             <Column title="Quantidade de Cotas" dataIndex="quantidadeCotas" key="" />
                             <Column title="Data da Compra" dataIndex="dataCompra" key="dataCompra" />
                             <Column title="Remover" key="atualizar" 
